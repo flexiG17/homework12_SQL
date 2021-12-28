@@ -30,5 +30,15 @@ clean_database()
 cursor.execute('CREATE TABLE genders'
                '(id INTEGER PRIMARY KEY AUTOINCREMENT,'
                'gender TEXT)')
-print("table genders created")
+
+cursor.execute('INSERT INTO genders(gender)'
+               ' SELECT DISTINCT gender'
+               ' FROM works '
+               ' WHERE gender IS NOT NULL')
+
+cursor.execute('ALTER TABLE works'
+               ' ADD COLUMN gender_id INTEGER REFERENCES genders(id)')
+
+
+
 
