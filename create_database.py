@@ -15,3 +15,7 @@ cursor = con.cursor()
 # очищаем столбцы skills и otherInfo от ненужного
 df.skills = df.skills.apply(clean_field)
 df.otherInfo = df.otherInfo.apply(clean_field)
+
+# записываем записи, хранящиеся в DataFrame, в базу данных SQL
+df.to_sql("works", con, if_exists='append', index=False)
+con.commit()
