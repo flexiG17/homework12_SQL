@@ -47,6 +47,26 @@ cursor.execute('ALTER TABLE works'
                ' DROP COLUMN gender')
 con.commit()
 
+cursor.execute('CREATE TABLE education'
+               '(id INTEGER PRIMARY KEY AUTOINCREMENT,'
+               'level_of_education TEXT)')
 
+cursor.execute('INSERT INTO education(level_of_education)'
+               ' SELECT DISTINCT educationType '
+               'FROM works'
+               ' WHERE educationType IS NOT NULL')
+
+cursor.execute('ALTER TABLE works'
+               ' ADD COLUMN education_type_id INTEGER REFERENCES education(id)')
+
+cursor.execute('UPDATE works'
+               ' SET education_type_id ='
+               ' (SELECT id'
+               ' FROM education'
+               ' WHERE level_of_education = works.educationType)')
+
+cursor.execute('ALTER TABLE works'
+               ' DROP COLUMN educationType')
+con.commit()
 
 
