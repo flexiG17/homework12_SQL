@@ -39,6 +39,14 @@ cursor.execute('INSERT INTO genders(gender)'
 cursor.execute('ALTER TABLE works'
                ' ADD COLUMN gender_id INTEGER REFERENCES genders(id)')
 
+cursor.execute('UPDATE works SET gender_id ='
+               '(SELECT id FROM genders'
+               ' WHERE gender = works.gender)')
+
+cursor.execute('ALTER TABLE works'
+               ' DROP COLUMN gender')
+con.commit()
+
 
 
 
